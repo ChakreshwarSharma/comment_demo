@@ -21,10 +21,10 @@ test:
   database: db/test.sqlite3
 
 production:
-    adapter: postgresql
-    encoding: utf8
-    database: magzine
-    port: 5432
-    host: 127.0.0.1
-    username: postgres
-    password: postgres
+   adapter: postgresql
+   encoding: utf8
+   database: d3ch423d1s747q
+   host: ec2-107-21-125-143.compute-1.amazonaws.com
+   username: unwdmvrjuxhlpd
+   port: 5432
+   password: Gmja5HKZCDyHiB-hU144uEs3GO
