@@ -1,0 +1,97 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @article.body %>
+</p>
+<p>
+  <strong>Author:</strong>
+  <%= @article.author %>
+</p>
+<strong>Comments:</strong>
+
+
+
+<% @all_comments.each do |comment| %>
+
+     <p><b><%= comment.user.email %></b>: <%= comment.body %>
+
+      <%= link_to "Reply", "#", :onclick => "show_reply_div("+comment.id.to_s+")" %>
+</p>
+    <div style = "margin-left:50px">
+
+      <% comment.children.each do |children| %>
+          <p>
+            <b><%= children.user.email %></b>: <%= children.body %> <%= link_to "Reply", "#", :onclick => "show_reply_div("+children.id.to_s+")" %>
+
+          </p>
+      <% end %>
+
+    </div>
+
+    <div id="reply_div" style="display:none">
+      <!--<textarea class="form-control" name="things_to_be_improved" id="reply_<%#= comment.id %>"></textarea>-->
+      <!--<input type="button" value="Reply" onclick=reply_comment(<%#= comment.id %>)>-->
+    </div>
+
+
+<% end %>
+
+
+
+
+
+<div id="new_comment" style="display:none">
+  <div class="field">
+    Comment:
+    <textarea class="form-control" name="things_to_be_improved" id="comment"></textarea>
+    <input type="button" value="Save Comment" id="save_comment">
+  </div>
+</div>
+<%= link_to 'Comment', "#", :remote => true, :onclick => "new_comment()" %>
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
+<script>
+    function new_comment() {
+        $("#new_comment").show();
+    }
+
+    $("#save_comment").click(function () {
+        $.ajax({
+            url: "/comments/save_new_comment",
+            type: "post",
+            data: {authenticity_token: AUTH_TOKEN, id: '<%= @article.id %>', comment: $("#comment").val()},
+            success: function () {
+                location.reload(true);
+            }
+
+        })
+    })
+    function show_reply_div(id) {
+        console.info("dsfsdf");
+        $("#reply_div").html('<textarea class="form-control"  id="reply_' + id + '"></textarea>'
+        + '<input type="button" value="Reply" onclick="reply_comment(' + id + ')">');
+        $("#reply_div").show();
+    }
+    function reply_comment(id) {
+        $.ajax({
+            url: "/comments/reply_comment",
+            type: "post",
+            data: {
+                authenticity_token: AUTH_TOKEN,
+                id: '<%= @article.id %>',
+                comment: $("#reply_" + id).val(),
+                parent_id: id
+            },
+            success: function () {
+                location.reload(true);
+            }
+
+        })
+    }
+</script>

@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<div class="main-head text-center">
+  <h2 class="uprCase">Articles</h2>
+</div>
+<div class="inContainer">
+  <div class="container">
+    <div class="row">
+      <div class="table-block table-responsive">
+        <table class="table font14 table-bordered">
+          <thead>
+          <tr>
+            <th width="15%">Title</th>
+            <th width="15%">Author</th>
+            <th width="50%">Contents</th>
+            <th width="5%">Show</th>
+            <th width="10%"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @articles.each do |article| %>
+              <tr>
+                <td><%= article.title %></td>
+                <td><%= article.author %></td>
+                <td><%= article.body %></td>
+                <td><%= link_to 'Show', article %></td>
+                <td>
+                  <%# if article.email == current_user.email %>
+                      <%#= link_to 'Edit', edit_article_path(article) %>
+                      <%#= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %>
+                      <%#= link_to 'Comment', "#" %>
+                  <%# end %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<br>
+
+<%= link_to 'New Article', new_article_path %>
